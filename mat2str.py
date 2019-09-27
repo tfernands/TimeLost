@@ -10,6 +10,18 @@ for i in range(n):
 		mat[i].append((random.random()-0)*1) 
 
 def mat2str(mat: list, dec: int = 1, sw: int = 3, sh: int = 1, pdw: int = None, pdh: int = None) -> str:
+	"""
+	Generate a cool string representation of the matrix.
+	
+	Keyword arguments:
+	mat: list[list[int]] -- the matrix
+	dec: int             -- number of decimal places
+	sw:  int             -- spaces between columns
+	sh:  int             -- spaces between rows
+	pdw: int             -- border padding width
+	pdh: int             -- border parddin height
+	return: str          -- string representation of the matrix
+	"""
 	maxn = maxc1 = 0
 	for row in mat:
 		maxc1 = max(maxc1, len(('{:.'+str(dec)+'f}').format(row[0])))
