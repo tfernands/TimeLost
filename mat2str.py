@@ -1,13 +1,4 @@
 import math
-import random
-
-n, m = 5, 5
-mat = []
-
-for i in range(n):
-	mat.append([])
-	for j in range(m):
-		mat[i].append((random.random()-0)*1) 
 
 def mat2str(mat: list, dec: int = 1, sw: int = 3, sh: int = 1, pdw: int = None, pdh: int = None) -> str:
 	"""
@@ -42,6 +33,3 @@ def mat2str(mat: list, dec: int = 1, sw: int = 3, sh: int = 1, pdw: int = None, 
 	smat += ('\u2502'+emptyc*' '+'\u2502\n')*(pdh-1)+'\u2514'+\
 	'\u2500'*pdw+(emptyc-pdw*2)*' '+'\u2500'*pdw+'\u2518\n' if pdh > 0 else ''
 	return smat
-	
-print('')
-print(mat2str(mat,10, sh=4))
