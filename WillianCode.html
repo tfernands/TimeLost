@@ -183,7 +183,7 @@ function findtoken(text){
         simbol = removeAccents(e[0]).toLowerCase();
         name = removeAccents(e[1]).toLowerCase();
         if (text.startsWith(simbol)){
-            fitness = 1000+e[0].length-i;
+            fitness = 1000+e[0].length;
             temp_code = [i, 0];
         }
         else if (fitness == -1){
