@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script>
+            // Example: https://codepen.io/marcelo-ribeiro/pen/OJmVOyW
+
+const accentsMap = new Map([
+    ["A", "Á|À|Ã|Â|Ä"],
+    ["a", "á|à|ã|â|ä"],
+    ["E", "É|È|Ê|Ë"],
+    ["e", "é|è|ê|ë"],
+    ["I", "Í|Ì|Î|Ï"],
+    ["i", "í|ì|î|ï"],
+    ["O", "Ó|Ò|Ô|Õ|Ö"],
+    ["o", "ó|ò|ô|õ|ö"],
+    ["U", "Ú|Ù|Û|Ü"],
+    ["u", "ú|ù|û|ü"],
+    ["C", "Ç"],
+    ["c", "ç"],
+    ["N", "Ñ"],
+    ["n", "ñ"]
+  ]);
+const reducer = (acc, [key]) => acc.replace(new RegExp(accentsMap.get(key), "g"), key);
+const removeAccents = (text) => [...accentsMap].reduce(reducer, text);
+
+const JAPONESE_NUMERALS = ['〇', '一', '二', '三', '四', '五', '六', '七', '八', '九']
+const JAPONESE_POWER_10 = ['十', '百']
+
+function to_japonese_number(number){
+    unidade = number%10;
+    dezena = Math.floor(number%100/10);
+    centena = Math.floor(number/100)
+    out = '';
+    if (centena > 0){
+        if (centena > 1)
+            out += JAPONESE_NUMERALS[centena]
+        out += '百';
+    }
+    if (dezena > 0){
+        if (dezena > 1)
+            out += JAPONESE_NUMERALS[dezena];
+        out += '十';
+    }
+    if (unidade > 0)
+        out += JAPONESE_NUMERALS[unidade];
+    return out;
+}
+
+ELEMENTS = [
+    ['0', '0'],
+    ['H', 'Hidrogênio'],
+    ['He', 'Hélio'],
+    ['Li', 'Lítio'],
+    ['Be', 'Berílio'],
+    ['B', 'Boro'],
+    ['C', 'Carbono'],
+    ['N', 'Nitrogênio'],
+    ['O', 'Oxigênio'],
+    ['F', 'Flúor'],
+    ['Ne', 'Neônio ou Néon'],
+    ['Na', 'Sódio'],
+    ['Mg', 'Magnésio'],
+    ['Al', 'Alumínio'],
+    ['Si', 'Silício'],
+    ['P', 'Fósforo'],
+    ['S', 'Enxofre'],
+    ['Cl', 'Cloro'],
+    ['Ar', 'Argônio ou Árgon'],
+    ['K', 'Potássio'],
+    ['Ca', 'Cálcio'],
+    ['Sc', 'Escândio'],
+    ['Ti', 'Titânio'],
+    ['V', 'Vanádio'],
+    ['Cr', 'Cromo ou Crómio'],
+    ['Mn', 'Manganês'],
+    ['Fe', 'Ferro'],
+    ['Co', 'Cobalto'],
+    ['Ni', 'Níquel'],
+    ['Cu', 'Cobre'],
+    ['Zn', 'Zinco'],
+    ['Ga', 'Gálio'],
+    ['Ge', 'Germânio'],
+    ['As', 'Arsénio'],
+    ['Se', 'Selénio'],
+    ['Br', 'Bromo'],
+    ['Kr', 'Criptônio ou Krípton'],
+    ['Rb', 'Rubídio'],
+    ['Sr', 'Estrôncio'],
+    ['Y', 'Ítrio'],
+    ['Zr', 'Zircônio'],
+    ['Nb', 'Nióbio'],
+    ['Mo', 'Molibdénio'],
+    ['Tc', 'Tecnécio'],
+    ['Ru', 'Rutênio'],
+    ['Rh', 'Ródio'],
+    ['Pd', 'Paládio'],
+    ['Ag', 'Prata'],
+    ['Cd', 'Cádmio'],
+    ['In', 'Índio'],
+    ['Sn', 'Estanho'],
+    ['Sb', 'Antimônio'],
+    ['Te', 'Telúrio'],
+    ['I', 'Iodo'],
+    ['Xe', 'Xenônio ou Xénon'],
+    ['Cs', 'Césio'],
+    ['Ba', 'Bário'],
+    ['La', 'Lantânio'],
+    ['Ce', 'Cério'],
+    ['Pr', 'Praseodímio'],
+    ['Nd', 'Neodímio'],
+    ['Pm', 'Promécio'],
+    ['Sm', 'Samário'],
+    ['Eu', 'Európio'],
+    ['Gd', 'Gadolínio'],
+    ['Tb', 'Térbio'],
+    ['Dy', 'Disprósio'],
+    ['Ho', 'Hólmio'],
+    ['Er', 'Érbio'],
+    ['Tm', 'Túlio'],
+    ['Yb', 'Itérbio'],
+    ['Lu', 'Lutécio'],
+    ['Hf', 'Háfnio'],
+    ['Ta', 'Tântalo'],
+    ['W', 'Tungstênio ou Volfrâmio'],
+    ['Re', 'Rênio'],
+    ['Os', 'Ósmio'],
+    ['Ir', 'Irídio'],
+    ['Pt', 'Platina'],
+    ['Au', 'Ouro'],
+    ['Hg', 'Mercúrio'],
+    ['Tl', 'Tálio'],
+    ['Pb', 'Chumbo'],
+    ['Bi', 'Bismuto'],
+    ['Po', 'Polônio'],
+    ['At', 'Ástato'],
+    ['Rn', 'Rádon ou Radônio'],
+    ['Fr', 'Frâncio'],
+    ['Ra', 'Rádio'],
+    ['Ac', 'Actínio'],
+    ['Th', 'Tório'],
+    ['Pa', 'Protactínio'],
+    ['U', 'Urânio'],
+    ['Np', 'Netúnio'],
+    ['Pu', 'Plutônio'],
+    ['Am', 'Amerício'],
+    ['Cm', 'Cúrio'],
+    ['Bk', 'Berquélio'],
+    ['Cf', 'Califórnio'],
+    ['Es', 'Einsténio'],
+    ['Fm', 'Férmio'],
+    ['Md', 'Mendelévio'],
+    ['No', 'Nobélio'],
+    ['Lr', 'Laurêncio'],
+    ['Rf', 'Rutherfórdio'],
+    ['Db', 'Dúbnio'],
+    ['Sg', 'Seabórgio'],
+    ['Bh', 'Bóhrio'],
+    ['Hs', 'Hássio'],
+    ['Mt', 'Meitnério'],
+    ['Ds', 'Darmstácio'],
+    ['Rg', 'Roentgénio'],
+    ['Cn', 'Copernício'],
+    ['Nh', 'Nipônio'],
+    ['Fl', 'Fleróvio'],
+    ['Mc', 'Moscóvio'],
+    ['Lv', 'Livermório'],
+    ['Ts', 'Tenesso'],
+    ['Og', 'Oganésson ou Oganéssio']
+]
+
+function findtoken(text){
+    raw = text;
+    text = removeAccents(text).toLowerCase()
+    code_fitness = -1
+    code = [-1, raw[0]];
+    // search main simbol
+    for (let i = 0; i <  ELEMENTS.length; i++){
+        e = ELEMENTS[i];
+        fitness = -1;
+        temp_code = null;
+        simbol = removeAccents(e[0]).toLowerCase();
+        name = removeAccents(e[1]).toLowerCase();
+        if (text.startsWith(simbol)){
+            fitness = 1000+e[0].length-i;
+            temp_code = [i, 0];
+        }
+        else if (fitness == -1){
+            letter_index = name.indexOf(text[0]);
+            if (letter_index >= 0){
+                fitness = 300-letter_index-i;
+                temp_code = [i, letter_index+1];
+            }
+        }
+        if (fitness > code_fitness){
+            code_fitness = fitness
+            code = temp_code
+        }
+    }
+    return code
+}
+
+function encode(text){
+    word = []
+    encoded = []
+    while (text.length > 0){
+        if (text[0] == ' '){
+            encoded.push(word);
+            word = []
+            text=text.substring(1);
+        }
+        else{
+            code = findtoken(text);
+            console.log(code);
+            word.push(code);
+            if (code[1] == 0)
+                text=text.substring(ELEMENTS[code[0]].length);
+            else
+                text=text.substring(1);
+        }
+    }
+    if (word.length > 0)
+        encoded.push(word)
+    return encoded
+}
+
+function update(element, event){
+    console.log(event);
+    message = document.getElementById("message");
+    code = encode(element.value)
+    message.innerHTML = "";
+    for (w of code){
+        for (tk of w){
+            word_html = '<span class="word">';
+            if (tk[0] > -1){
+                word_html += to_japonese_number(tk[0]);
+                if (tk[1] != 0){
+                    word_html+="<span class='upper'>("+tk[1]+")</span>";
+                }
+            }
+            else{
+                word_html+=tk[1];
+            }
+            word_html+="</span>";
+            message.innerHTML += word_html+" &nbsp";
+        }
+        message.innerHTML += " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+    }
+}
+
+        </script>
+        <style>
+            h1{
+                line-height: 2;
+            }
+            .word{
+                position: relative;
+            }
+            .upper{
+                position: absolute;
+                font-size: medium;
+                top: -1.6em;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        </style>
+    </head>
+    <body>
+        <input type="text" onkeyup="update(this, event)">
+        <h1 id="message">Teste</h1>
+    </body>
+</html>
