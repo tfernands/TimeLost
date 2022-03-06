@@ -2,7 +2,6 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Willian's Code</title>
         <script>
             // Example: https://codepen.io/marcelo-ribeiro/pen/OJmVOyW
 
@@ -174,7 +173,7 @@ function findtoken(text){
     raw = text;
     text = removeAccents(text).toLowerCase()
     code_fitness = -1
-    code = [-1, raw[0]];
+    code = null;
     // search main simbol
     for (let i = 0; i <  ELEMENTS.length; i++){
         e = ELEMENTS[i];
@@ -183,7 +182,7 @@ function findtoken(text){
         simbol = removeAccents(e[0]).toLowerCase();
         name = removeAccents(e[1]).toLowerCase();
         if (text.startsWith(simbol)){
-            fitness = 1000+e[0].length;
+            fitness = 1000+e[0].length ;
             temp_code = [i, 0];
         }
         else if (fitness == -1){
@@ -191,6 +190,10 @@ function findtoken(text){
             if (letter_index >= 0){
                 fitness = 300-letter_index-i;
                 temp_code = [i, letter_index+1];
+            }
+            else{
+                fitness = -1;
+                code = [-1, raw[0]];
             }
         }
         if (fitness > code_fitness){
@@ -212,7 +215,6 @@ function encode(text){
         }
         else{
             code = findtoken(text);
-            console.log(code);
             word.push(code);
             if (code[1] == 0)
                 text=text.substring(ELEMENTS[code[0]].length);
@@ -268,6 +270,6 @@ function update(element, event){
     </head>
     <body>
         <input type="text" onkeyup="update(this, event)">
-        <h1 id="message">Digite alguma mensagem!</h1>
+        <h1 id="message">Teste</h1>
     </body>
 </html>
