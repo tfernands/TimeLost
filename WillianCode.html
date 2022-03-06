@@ -28,6 +28,30 @@ const removeAccents = (text) => [...accentsMap].reduce(reducer, text);
 const JAPONESE_NUMERALS = ['〇', '一', '二', '三', '四', '五', '六', '七', '八', '九']
 const JAPONESE_POWER_10 = ['十', '百']
 
+function from_japonese_number(string_number){
+    number = 0;
+    last_is_prefix = false;
+    prefix = 1;
+    for (let c of string_number){
+        numeral = JAPONESE_NUMERALS.indexOf(c);
+        power = JAPONESE_POWER_10.indexOf(c);
+        if (numeral > -1){
+            last_is_prefix = true;
+            last_power = -1;
+            prefix = numeral;
+        }
+        else if (power > -1){
+            last_is_prefix = false;
+            number += prefix*Math.pow(10, power+1);
+            prefix = 1;
+        }
+    }
+    if (last_is_prefix){
+        number += prefix;
+    }
+    return number;
+}
+
 function to_japonese_number(number){
     unidade = number%10;
     dezena = Math.floor(number%100/10);
@@ -228,32 +252,82 @@ function encode(text){
     return encoded
 }
 
-function update(element, event){
-    console.log(event);
-    message = document.getElementById("message");
-    code = encode(element.value)
-    message.innerHTML = "";
-    for (w of code){
-        for (tk of w){
-            word_html = '<span class="word">';
-            if (tk[0] > -1){
-                word_html += to_japonese_number(tk[0]);
-                if (tk[1] != 0){
-                    word_html+="<span class='upper'>("+tk[1]+")</span>";
+function decode(input){
+    output = "";
+    const acepted_numerals = [...JAPONESE_NUMERALS, ...JAPONESE_POWER_10, ' ', '?', 'j', '.','1', '2', '3', '4', '5', '6', '7', '8', '9','0','('];
+    input = input.toLowerCase();
+    input_curated = ""
+    for (let c of input){
+        if (acepted_numerals.indexOf(c) > -1){
+            input_curated += c;
+        }
+    }
+    words = input_curated.split('  ');
+    for (let word of words){
+        tokens = word.split(' ');
+        for (let tok of tokens){
+            token_index = tok.replace(' ', '').split('(');
+            number = from_japonese_number(token_index[0]);
+            if (number > 0){
+                if (token_index.length > 1){
+                    for (let i = 1; i < token_index.length; i++){
+                        output += ELEMENTS[number][1].charAt(parseInt(token_index[i])-1);
+                    }
+                }
+                else{
+                    output += ELEMENTS[number][0].toLowerCase();
                 }
             }
-            else{
-                word_html+=tk[1];
-            }
-            word_html+="</span>";
-            message.innerHTML += word_html+" &nbsp";
         }
-        message.innerHTML += " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+        output+=' ';
+    }
+    return output.substring(0, output.length-2);
+}
+
+function update(element, event){
+    message = document.getElementById("message");
+
+    action_encode=true;
+    for (let c of element.value){
+        if (JAPONESE_NUMERALS.indexOf(c) > -1){
+            action_encode=false;
+            break;
+        }
+    }
+    if (action_encode){
+        code = encode(element.value)
+        message.innerHTML = "";
+        message.className = 'code';
+        for (w of code){
+            for (tk of w){
+                word_html = '<span class="word">';
+                if (tk[0] > -1){
+                    word_html += to_japonese_number(tk[0]);
+                    if (tk[1] != 0){
+                        word_html+="<span class='upper'>("+tk[1]+")</span>";
+                    }
+                }
+                else{
+                    word_html+=tk[1];
+                }
+                word_html+="</span>";
+                message.innerHTML += word_html+"&nbsp";
+            }
+            message.innerHTML += "&nbsp&nbsp";
+        }
+    }
+    else{
+        message.className = '';
+        decoded = decode(element.value);
+        message.innerHTML = decoded[0].toUpperCase()+decoded.substring(1);
     }
 }
 
         </script>
         <style>
+            code {
+                word-spacing: 20px;
+            }
             h1{
                 line-height: 2;
             }
