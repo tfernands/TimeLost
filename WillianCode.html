@@ -287,18 +287,16 @@ function decode(input){
     return removeAccents(output.replace('  ',''));
 }
 
-function update(element, event){
-    message = document.getElementById("message");
-
+function update(){
     action_encode=true;
-    for (let c of element.value){
+    for (let c of input.value){
         if (JAPONESE_NUMERALS.indexOf(c) > -1){
             action_encode=false;
             break;
         }
     }
     if (action_encode){
-        code = encode(element.value)
+        code = encode(input.value)
         message.innerHTML = "";
         message.className = 'code';
         for (w of code){
@@ -321,13 +319,31 @@ function update(element, event){
     }
     else{
         message.className = '';
-        decoded = decode(element.value);
+        decoded = decode(input.value);
         message.innerHTML = decoded[0].toUpperCase()+decoded.substring(1);
     }
 }
 
+    function init(){
+        message = document.getElementById("message");
+        input = document.getElementById("input");
+    }
+
+    function insertContent(element){
+        input.value += element.innerHTML;
+        update();
+    }
+
         </script>
         <style>
+            body, html {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+            }
+            .input, .message{
+                margin: 1em;
+            }
             code {
                 word-spacing: 20px;
             }
@@ -344,10 +360,54 @@ function update(element, event){
                 left: 50%;
                 transform: translateX(-50%);
             }
+            .keyboard {
+                position: absolute;
+                width: 100%;
+                bottom: 0;
+            }
+            .container{
+                margin: auto;
+            }
+            .keyboard-row {
+                width: fit-content;
+                margin: 1em auto;
+            }
         </style>
     </head>
-    <body>
-        <input type="text" onkeyup="update(this, event)" style="width: 99%;">
-        <h1 id="message">Digite alguma mensagem!</h1>
+    <body onload="init()">
+        <div class="input">
+            <input id="input" type="textarea" onkeyup="update()" style="width: 100%; box-sizing: border-box;">
+        </div>
+        <div class="message">
+            <h1 id="message">Digite alguma mensagem!</h1>
+        </div>
+        <div class="keyboard">
+            <div class="container">
+                <div class="keyboard-row">
+                    <button onclick="insertContent(this)">(1)</button>
+                    <button onclick="insertContent(this)">(2)</button>
+                    <button onclick="insertContent(this)">(3)</button>
+                    <button onclick="insertContent(this)">(4)</button>
+                    <button onclick="insertContent(this)">(5)</button>
+                    <button onclick="insertContent(this)">(6)</button>
+                    <button onclick="insertContent(this)">(7)</button>
+                    <button onclick="insertContent(this)">(8)</button>
+                    <button onclick="insertContent(this)">(9)</button>
+                </div>
+                <div class="keyboard-row">
+                    <button onclick="insertContent(this)">一</button>
+                    <button onclick="insertContent(this)">二</button>
+                    <button onclick="insertContent(this)">三</button>
+                    <button onclick="insertContent(this)">四</button>
+                    <button onclick="insertContent(this)">五</button>
+                    <button onclick="insertContent(this)">六</button>
+                    <button onclick="insertContent(this)">七</button>
+                    <button onclick="insertContent(this)">八</button>
+                    <button onclick="insertContent(this)">九</button>
+                    <button onclick="insertContent(this)">十</button>
+                    <button onclick="insertContent(this)">百</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
