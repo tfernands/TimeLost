@@ -4,7 +4,7 @@ import math
 def mat2str(mat: list, dec: int = 1, sw: int = 3, sh: int = 1, pdw: int = None, pdh: int = None) -> str:
     """
     Generate a cool string representation of the matrix.
-    
+    ---
     Keyword arguments:
     mat: list[list[int]] -- the matrix
     dec: int             -- number of decimal places
@@ -34,4 +34,3 @@ def mat2str(mat: list, dec: int = 1, sw: int = 3, sh: int = 1, pdw: int = None, 
     smat += ('\u2502' + emptyc * ' ' + '\u2502\n') * (pdh - 1) + '\u2514' +\
         '\u2500' * pdw + (emptyc - pdw * 2) * ' ' + '\u2500' * pdw + '\u2518\n' if pdh > 0 else ''
     return smat
-
